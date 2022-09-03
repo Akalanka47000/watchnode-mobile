@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.text.Editable;
@@ -23,11 +22,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import app.watchnode.R;
 import app.watchnode.data.NetworkManager;
-import app.watchnode.ui.login.LoginViewModel;
-import app.watchnode.ui.login.LoginViewModelFactory;
+import app.watchnode.data.ResponseResult;
+import app.watchnode.data.auth.LoginRepository;
+import app.watchnode.data.auth.model.LoggedInUser;
 import app.watchnode.databinding.ActivityLoginBinding;
 
 public class LoginActivity extends AppCompatActivity {
@@ -66,18 +67,23 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
+        loginViewModel.getLoginResult().observe(this, new Observer<ResponseResult>() {
             @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
+            public void onChanged(ResponseResult loginResult) {
                 if (loginResult == null) {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
+                if (!loginResult.getSuccess()) {
+                    Toast.makeText(getApplicationContext(), loginResult.getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        LoggedInUser user = LoggedInUser.fromJson(loginResult.getData().getJSONObject("user"));
+                        LoginRepository.getInstance().setLoggedInUser(user);
+                        updateUiWithUser();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
                 setResult(Activity.RESULT_OK);
             }
@@ -124,13 +130,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void updateUiWithUser(LoggedInUserView model) {
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
+    private void updateUiWithUser() {
+        String welcome = getString(R.string.welcome) + LoginRepository.getInstance().getLoggedInUser().getName();
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-    }
-
-    private void showLoginFailed(@StringRes Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 }

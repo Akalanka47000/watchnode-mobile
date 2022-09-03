@@ -4,18 +4,14 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import android.util.Patterns;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import app.watchnode.data.NetworkListener;
+import app.watchnode.data.ResponseResult;
 import app.watchnode.data.auth.LoginRepository;
 import app.watchnode.R;
 
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
-    private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+    private MutableLiveData<ResponseResult> loginResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
 
     LoginViewModel(LoginRepository loginRepository) {
@@ -26,22 +22,13 @@ public class LoginViewModel extends ViewModel {
         return loginFormState;
     }
 
-    LiveData<LoginResult> getLoginResult() {
+    LiveData<ResponseResult> getLoginResult() {
         return loginResult;
     }
 
     public void login(String email, String password) {
         try {
-            loginRepository.login(email, password, new NetworkListener() {
-                @Override
-                public void onSuccess(boolean success, String message, JSONObject data) throws JSONException {
-                    loginResult.setValue(new LoginResult(new LoggedInUserView(data.getJSONObject("user").getString("name"))));
-                }
-                @Override
-                public void onError(boolean success, String message, JSONObject data) {
-                    loginResult.setValue(new LoginResult(R.string.login_failed));
-                }
-            });
+            loginRepository.login(email, password, loginResult);
         } catch (Exception e) {
             e.printStackTrace();
         }

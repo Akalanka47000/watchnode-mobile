@@ -3,6 +3,8 @@ package app.watchnode.data;
 import android.content.Context;
 import android.util.Log;
 
+import androidx.lifecycle.MutableLiveData;
+
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -45,56 +47,56 @@ public class NetworkManager
         return instance;
     }
 
-    public void get(String path, NetworkListener listener)
+    public void get(String path, MutableLiveData<ResponseResult> result)
     {
         String url =  Constants.SERVER_URL + path;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                successListener(listener, path), errorListener(listener,path));
+                successListener(result, path), errorListener(result,path));
 
         requestQueue.add(request);
     }
 
-    public void post(String path, @Nullable Map<String, Object> payload, NetworkListener listener)
+    public void post(String path, @Nullable Map<String, Object> payload, MutableLiveData<ResponseResult> result)
     {
         String url =  Constants.SERVER_URL + path;
         if (payload == null) {
             payload = new HashMap<>();
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(payload),
-                successListener(listener, path), errorListener(listener,path));
+                successListener(result, path), errorListener(result,path));
 
         requestQueue.add(request);
     }
 
-    public void put(String path, @Nullable Map<String, Object> payload, NetworkListener listener)
+    public void put(String path, @Nullable Map<String, Object> payload, MutableLiveData<ResponseResult> result)
     {
         String url =  Constants.SERVER_URL + path;
         if (payload == null) {
             payload = new HashMap<>();
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, new JSONObject(payload),
-                successListener(listener, path), errorListener(listener,path));
+                successListener(result, path), errorListener(result,path));
 
         requestQueue.add(request);
     }
 
-    public void delete(String path, NetworkListener listener)
+    public void delete(String path, MutableLiveData<ResponseResult> result)
     {
         String url =  Constants.SERVER_URL + path;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, url, null,
-                successListener(listener, path), errorListener(listener,path));
+                successListener(result, path), errorListener(result,path));
 
         requestQueue.add(request);
     }
 
-    private Response.Listener successListener(NetworkListener listener, String path) {
+    private Response.Listener successListener(MutableLiveData<ResponseResult> result, String path) {
         return (Response.Listener<JSONObject>) response -> {
             if (null != response.toString()) {
                 try {
                     JSONObject data = response.getJSONObject("data");
                     String message = response.getString("message");
                     Log.d("API_REQUEST_SUCCESS", "path: " + path + "response: " + data);
-                    listener.onSuccess(true, message, data);
+                    result.setValue(new ResponseResult(true, message, data));
                 } catch (Exception e) {
                     Log.d("API_REQUEST_FAILED", "path: " + path);
                 }
@@ -102,16 +104,16 @@ public class NetworkManager
         };
     };
 
-    private Response.ErrorListener errorListener(NetworkListener listener, String path) {
+    private Response.ErrorListener errorListener(MutableLiveData<ResponseResult> result, String path) {
         return error -> {
             if (null != error.networkResponse)
             {
                 try {
-                JSONObject res = parseVolleyResponse(error.networkResponse);
-                JSONObject data = res.has("data") ? res.getJSONObject("data") : null;
-                String message = res.has("message") ? res.getString("message") : null;
-                Log.d("API_REQUEST_FAILED", "path: " + path + "response: " + data + "status: " + error.networkResponse.statusCode);
-                listener.onError(false, message, data);
+                    JSONObject res = parseVolleyResponse(error.networkResponse);
+                    JSONObject data = res.has("data") ? res.getJSONObject("data") : null;
+                    String message = res.has("message") ? res.getString("message") : null;
+                    Log.d("API_REQUEST_FAILED", "path: " + path + "response: " + data + "status: " + error.networkResponse.statusCode);
+                result.setValue(new ResponseResult(false, message, data));
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.d("API_REQUEST_FAILED", "path: " + path  + "status: " + error.networkResponse.statusCode);

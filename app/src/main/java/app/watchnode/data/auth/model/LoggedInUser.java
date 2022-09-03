@@ -1,5 +1,10 @@
 package app.watchnode.data.auth.model;
 
+import org.jetbrains.annotations.Nullable;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,5 +32,32 @@ public class LoggedInUser {
 
     public String getName() {
         return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public List<String> getFcmTokens() {
+        return fcmTokens;
+    }
+
+    public static @Nullable LoggedInUser fromJson(JSONObject obj) {
+        try {
+            return new LoggedInUser(
+                    obj.getString("_id"),
+                    obj.getString("name"),
+                    obj.getString("email"),
+                    obj.getString("role"),
+                    new ArrayList(Arrays.asList(obj.getJSONArray("fcm_tokens")))
+            );
+        } catch(Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }
