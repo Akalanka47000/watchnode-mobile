@@ -2,16 +2,13 @@ package app.watchnode.data;
 
 import android.content.Context;
 import android.util.Log;
-
 import androidx.lifecycle.MutableLiveData;
-
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 import java.util.HashMap;

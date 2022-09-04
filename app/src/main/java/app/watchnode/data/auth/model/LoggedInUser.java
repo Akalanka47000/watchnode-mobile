@@ -2,14 +2,10 @@ package app.watchnode.data.auth.model;
 
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Data class that captures user information for logged in users retrieved from LoginRepository
- */
 public class LoggedInUser {
 
     private String id;

@@ -6,10 +6,6 @@ import androidx.annotation.NonNull;
 
 import app.watchnode.data.auth.LoginRepository;
 
-/**
- * ViewModel provider factory to instantiate LoginViewModel.
- * Required given LoginViewModel has a non-empty constructor
- */
 public class LoginViewModelFactory implements ViewModelProvider.Factory {
 
     @NonNull
