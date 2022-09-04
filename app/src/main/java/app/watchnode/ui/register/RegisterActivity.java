@@ -1,9 +1,7 @@
-package app.watchnode.ui.login;
+package app.watchnode.ui.register;
 
 import android.app.Activity;
-import androidx.lifecycle.ViewModelProvider;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -12,55 +10,58 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import org.json.JSONException;
 import app.watchnode.R;
 import app.watchnode.data.NetworkManager;
 import app.watchnode.data.auth.AuthRepository;
 import app.watchnode.data.auth.model.LoggedInUser;
-import app.watchnode.databinding.ActivityLoginBinding;
+import app.watchnode.databinding.ActivityRegisterBinding;
 
-public class LoginActivity extends AppCompatActivity {
+public class RegisterActivity extends AppCompatActivity {
 
-    private LoginViewModel loginViewModel;
+    private RegisterViewModel registerViewModel;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NetworkManager.getInstance(this);
-        ActivityLoginBinding binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        ActivityRegisterBinding binding = ActivityRegisterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
+        registerViewModel = new ViewModelProvider(this, new RegisterViewModelFactory())
+                .get(RegisterViewModel.class);
 
-        final EditText usernameEditText = binding.email;
+        final EditText nameEditText = binding.name;
+        final EditText emailEditText = binding.email;
         final EditText passwordEditText = binding.password;
-        final Button loginButton = binding.login;
+        final Button registerButton = binding.register;
         final ProgressBar loadingProgressBar = binding.loading;
 
-        loginViewModel.getLoginFormState().observe(this, loginFormState -> {
-            if (loginFormState == null) {
+        registerViewModel.getRegisterFormState().observe(this, registerFormState -> {
+            if (registerFormState == null) {
                 return;
             }
-            loginButton.setEnabled(loginFormState.isDataValid());
-            if (loginFormState.getUsernameError() != null) {
-                usernameEditText.setError(getString(loginFormState.getUsernameError()));
+            registerButton.setEnabled(registerFormState.isDataValid());
+            if (registerFormState.getNameError() != null) {
+                emailEditText.setError(getString(registerFormState.getNameError()));
             }
-            if (loginFormState.getPasswordError() != null) {
-                passwordEditText.setError(getString(loginFormState.getPasswordError()));
+            if (registerFormState.getPasswordError() != null) {
+                passwordEditText.setError(getString(registerFormState.getPasswordError()));
             }
         });
 
-        loginViewModel.getLoginResult().observe(this, loginResult -> {
-            if (loginResult == null) {
+        registerViewModel.getRegisterResult().observe(this, registerResult -> {
+            if (registerResult == null) {
                 return;
             }
             loadingProgressBar.setVisibility(View.GONE);
-            if (!loginResult.getSuccess()) {
-                Toast.makeText(getApplicationContext(), loginResult.getMessage(), Toast.LENGTH_SHORT).show();
+            if (!registerResult.getSuccess()) {
+                Toast.makeText(getApplicationContext(), registerResult.getMessage(), Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    LoggedInUser user = LoggedInUser.fromJson(loginResult.getData().getJSONObject("user"));
+                    LoggedInUser user = LoggedInUser.fromJson(registerResult.getData().getJSONObject("user"));
                     AuthRepository.getInstance().setLoggedInUser(user);
                     updateUiWithUser();
                 } catch (JSONException e) {
@@ -83,24 +84,30 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                if (nameEditText != null) {
+                    registerViewModel.registerDataChanged(nameEditText.getText().toString(), emailEditText.getText().toString(),
+                            passwordEditText.getText().toString());
+                }
             }
         };
-        usernameEditText.addTextChangedListener(afterTextChangedListener);
+        emailEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
+                if (nameEditText != null) {
+                    registerViewModel.register(nameEditText.getText().toString(), emailEditText.getText().toString(),
                             passwordEditText.getText().toString());
+                }
             }
             return false;
         });
 
-        loginButton.setOnClickListener(v -> {
+        registerButton.setOnClickListener(v -> {
             loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
+            if (nameEditText != null) {
+                registerViewModel.register(nameEditText.getText().toString(), emailEditText.getText().toString(),
                         passwordEditText.getText().toString());
+            }
         });
     }
 

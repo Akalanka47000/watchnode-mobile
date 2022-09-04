@@ -5,17 +5,17 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 import android.util.Patterns;
 import app.watchnode.data.ResponseResult;
-import app.watchnode.data.auth.LoginRepository;
+import app.watchnode.data.auth.AuthRepository;
 import app.watchnode.R;
 
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<ResponseResult> loginResult = new MutableLiveData<>();
-    private LoginRepository loginRepository;
+    private AuthRepository authRepository;
 
-    LoginViewModel(LoginRepository loginRepository) {
-        this.loginRepository = loginRepository;
+    LoginViewModel(AuthRepository authRepository) {
+        this.authRepository = authRepository;
     }
 
     LiveData<LoginFormState> getLoginFormState() {
@@ -28,7 +28,7 @@ public class LoginViewModel extends ViewModel {
 
     public void login(String email, String password) {
         try {
-            loginRepository.login(email, password, loginResult);
+            authRepository.login(email, password, loginResult);
         } catch (Exception e) {
             e.printStackTrace();
         }

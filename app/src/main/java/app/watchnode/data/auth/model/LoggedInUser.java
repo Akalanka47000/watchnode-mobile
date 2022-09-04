@@ -3,7 +3,7 @@ package app.watchnode.data.auth.model;
 import org.jetbrains.annotations.Nullable;
 import org.json.JSONObject;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class LoggedInUser {
@@ -49,7 +49,7 @@ public class LoggedInUser {
                     obj.getString("name"),
                     obj.getString("email"),
                     obj.getString("role"),
-                    new ArrayList(Arrays.asList(obj.getJSONArray("fcm_tokens")))
+                    new ArrayList(Collections.singletonList(obj.getJSONArray("fcm_tokens")))
             );
         } catch(Exception e) {
             e.printStackTrace();

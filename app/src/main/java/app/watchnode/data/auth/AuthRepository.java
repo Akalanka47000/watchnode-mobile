@@ -8,17 +8,17 @@ import app.watchnode.data.NetworkManager;
 import app.watchnode.data.ResponseResult;
 import app.watchnode.data.auth.model.LoggedInUser;
 
-public class LoginRepository {
+public class AuthRepository {
 
-    private static volatile LoginRepository instance;
+    private static volatile AuthRepository instance;
 
     private LoggedInUser user = null;
 
-    private LoginRepository() {}
+    private AuthRepository() {}
 
-    public static LoginRepository getInstance() {
+    public static AuthRepository getInstance() {
         if (instance == null) {
-            instance = new LoginRepository();
+            instance = new AuthRepository();
         }
         return instance;
     }
