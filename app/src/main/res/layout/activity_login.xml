@@ -51,16 +51,16 @@
         app:layout_constraintVertical_bias="0.375" />
 
     <com.google.android.material.textfield.TextInputLayout
-        style="?attr/textInputFilledStyle"
-        app:boxBackgroundColor="@color/white"
         android:id="@+id/textInputLayout4"
+        style="?attr/textInputFilledStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="280dp"
+        android:layout_marginTop="310dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="14dp"
         android:hint="@string/prompt_email"
+        app:boxBackgroundColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,11 +69,11 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/email"
-            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
-            android:selectAllOnFocus="true" />
+            android:selectAllOnFocus="true"
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -103,5 +103,17 @@
             tools:layout_editor_absoluteX="32dp"
             tools:layout_editor_absoluteY="418dp" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="254dp"
+        android:layout_height="195dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="80dp"
+        app:layout_constraintBottom_toTopOf="@+id/textInputLayout4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/lock" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
