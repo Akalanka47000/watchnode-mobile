@@ -15,18 +15,16 @@
 
     <Button
         android:id="@+id/register"
-        android:layout_width="350dp"
+        android:layout_width="349dp"
         android:layout_height="65dp"
-        android:layout_gravity="start"
-        android:layout_marginTop="15dp"
-        android:layout_marginEnd="13dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
         android:backgroundTint="@color/primary"
         android:enabled="false"
         android:text="@string/action_register"
         android:textSize="16dp"
         app:cornerRadius="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.937"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/passwordTextInputLayout" />
 
@@ -53,12 +51,12 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/nameTextInputLayout"
         style="?attr/textInputFilledStyle"
-        android:layout_width="350dp"
-        android:layout_height="57dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="14dp"
-        android:hint="@string/prompt_email"
+        android:hint="@string/prompt_name"
         app:boxBackgroundColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/emailTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
