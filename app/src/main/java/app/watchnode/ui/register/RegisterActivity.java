@@ -1,6 +1,7 @@
 package app.watchnode.ui.register;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +10,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
@@ -18,6 +20,7 @@ import app.watchnode.data.NetworkManager;
 import app.watchnode.data.auth.AuthRepository;
 import app.watchnode.data.auth.model.LoggedInUser;
 import app.watchnode.databinding.ActivityRegisterBinding;
+import app.watchnode.ui.login.LoginActivity;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -33,10 +36,11 @@ public class RegisterActivity extends AppCompatActivity {
         registerViewModel = new ViewModelProvider(this, new RegisterViewModelFactory())
                 .get(RegisterViewModel.class);
 
-        final EditText nameEditText = binding.name;
-        final EditText emailEditText = binding.email;
-        final EditText passwordEditText = binding.password;
+        final TextView nameEditText = binding.name;
+        final TextView emailEditText = (TextView) binding.email;
+        final TextView passwordEditText = (TextView) binding.password;
         final Button registerButton = binding.register;
+        final Button loginSwitch = binding.loginSwitch;
         final ProgressBar loadingProgressBar = binding.loading;
 
         registerViewModel.getRegisterFormState().observe(this, registerFormState -> {
@@ -108,6 +112,12 @@ public class RegisterActivity extends AppCompatActivity {
                 registerViewModel.register(nameEditText.getText().toString(), emailEditText.getText().toString(),
                         passwordEditText.getText().toString());
             }
+        });
+
+        loginSwitch.setOnClickListener(v -> {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 

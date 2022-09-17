@@ -2,6 +2,8 @@ package app.watchnode.ui.login;
 
 import android.app.Activity;
 import androidx.lifecycle.ViewModelProvider;
+
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.Editable;
@@ -9,7 +11,6 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +20,7 @@ import app.watchnode.data.NetworkManager;
 import app.watchnode.data.auth.AuthRepository;
 import app.watchnode.data.auth.model.LoggedInUser;
 import app.watchnode.databinding.ActivityLoginBinding;
+import app.watchnode.ui.register.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -37,6 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         final TextView usernameEditText = (TextView) binding.email;
         final TextView passwordEditText = (TextView) binding.password;
         final Button loginButton = binding.login;
+        final Button registerSwitch = binding.registerSwitch;
         final ProgressBar loadingProgressBar = binding.loading;
 
         loginViewModel.getLoginFormState().observe(this, loginFormState -> {
@@ -102,6 +105,12 @@ public class LoginActivity extends AppCompatActivity {
             loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
+        });
+
+        registerSwitch.setOnClickListener(v -> {
+            Intent intent = new Intent(this, RegisterActivity.class);
+            startActivity(intent);
+            finish();
         });
     }
 
