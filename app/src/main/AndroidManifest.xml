@@ -11,18 +11,28 @@
         android:usesCleartextTraffic="true"
         >
         <activity
-            android:name=".ui.login.LoginActivity"
+            android:name=".ui.splash.SplashActivity"
             android:exported="true"
-            android:label="Login">
+            android:label="Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="true"
+            android:label="Login">
+        </activity>
+        <activity
             android:name=".ui.register.RegisterActivity"
             android:exported="true"
             android:label="Register">
+        </activity>
+        <activity
+            android:name=".ui.home.HomeActivity"
+            android:exported="true"
+            android:label="Home">
         </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
