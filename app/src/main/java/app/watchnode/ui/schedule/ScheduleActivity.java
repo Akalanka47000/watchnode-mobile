@@ -1,12 +1,9 @@
-package app.watchnode.ui.home;
+package app.watchnode.ui.schedule;
 
 import app.watchnode.R;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -16,11 +13,12 @@ import androidx.lifecycle.ViewModelProvider;
 import java.util.ArrayList;
 
 import app.watchnode.data.NetworkManager;
-import app.watchnode.data.schedule.model.Event;
 import app.watchnode.data.schedule.model.Schedule;
-import app.watchnode.databinding.ActivityHomeBinding;
+import app.watchnode.databinding.ActivityAllSchedulesBinding;
+import app.watchnode.ui.home.HomeViewModel;
+import app.watchnode.ui.home.HomeViewModelFactory;
 
-public class HomeActivity extends AppCompatActivity {
+public class ScheduleActivity extends AppCompatActivity {
 
     private HomeViewModel homeViewModel;
 
@@ -28,42 +26,38 @@ public class HomeActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         NetworkManager.getInstance(this);
-        ActivityHomeBinding binding = ActivityHomeBinding.inflate(getLayoutInflater());
+        ActivityAllSchedulesBinding binding = ActivityAllSchedulesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         homeViewModel = new ViewModelProvider(this, new HomeViewModelFactory())
                 .get(HomeViewModel.class);
 
-        final Button uploadButton = binding.uploadBtn;
         final ProgressBar loadingProgressBar = binding.homeLoader;
 
-        homeViewModel.getSchedule();
+        homeViewModel.getAllSchedules();
 
-        homeViewModel.getScheduleResult().observe(this, scheduleResult -> {
+        homeViewModel.getAllSchedulesResult().observe(this, scheduleResult -> {
             if (scheduleResult == null) {
                 return;
             }
-            ImageView searchImg = findViewById(R.id.searchImgHome);
-            ListView scheduleItems = findViewById(R.id.homeSchedule);
+            ListView scheduleItems = findViewById(R.id.allSchedules);
             loadingProgressBar.setVisibility(View.GONE);
+            System.out.println(777);
             if (!scheduleResult.getSuccess()) {
 //                Toast.makeText(getApplicationContext(), scheduleResult.getMessage(), Toast.LENGTH_SHORT).show();
 //                searchImg.setVisibility(View.VISIBLE);
-                searchImg.setVisibility(View.GONE);
-                ArrayList<Event> events= new ArrayList<>();
-                events.add(new Event("Event 1", 1663495713, 2,"Hall A-11"));
-                events.add(new Event("Event 2", 1663515713, 4,"Hall B-10"));
-                events.add(new Event("Event 3", 1663605713, 5, "Hatch Works"));
-                ScheduleListAdapter adapter= new ScheduleListAdapter(events,getApplicationContext());
+
+                ArrayList<Schedule> schedules= new ArrayList<>();
+                schedules.add(new Schedule("1", "Lecture Schedule", new ArrayList<>()));
+                schedules.add(new Schedule("1", "Exam Schedule", new ArrayList<>()));
+                schedules.add(new Schedule("1", "Lecture Schedule 2", new ArrayList<>()));
+                AllScheduleAdapter adapter= new AllScheduleAdapter(schedules,getApplicationContext());
                 scheduleItems.setAdapter(adapter);
                 scheduleItems.setVisibility(View.VISIBLE);
             } else {
                 if (scheduleResult.getData() != null) {
                     Schedule schedule = Schedule.fromJson(scheduleResult.getData());
-                    searchImg.setVisibility(View.GONE);
                     updateUiWithSchedule(schedule);
-                } else {
-                    searchImg.setVisibility(View.VISIBLE);
                 }
             }
             setResult(Activity.RESULT_OK);

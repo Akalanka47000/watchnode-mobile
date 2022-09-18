@@ -19,5 +19,5 @@
         app:lottie_rawRes="@raw/alarm"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingClass,MissingConstraints" />
 </androidx.constraintlayout.widget.ConstraintLayout>

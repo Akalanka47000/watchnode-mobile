@@ -9,15 +9,21 @@ import java.util.List;
 
 public class Schedule {
     private String user;
+    private String name;
     private List events;
 
-    public Schedule(String user, List events) {
+    public Schedule(String user, String name, List events) {
         this.user = user;
+        this.name = name;
         this.events = events;
     }
 
     public String getUser() {
         return user;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public List getEvents() {
@@ -34,6 +40,7 @@ public class Schedule {
             }
             return new Schedule(
                     obj.getString("user"),
+                    obj.getString("name"),
                     events
             );
         } catch(Exception e) {

@@ -34,6 +34,11 @@
             android:exported="true"
             android:label="Home">
         </activity>
+        <activity
+            android:name=".ui.schedule.ScheduleActivity"
+            android:exported="true"
+            android:label="Home">
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

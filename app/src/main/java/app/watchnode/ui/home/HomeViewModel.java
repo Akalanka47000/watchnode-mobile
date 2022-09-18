@@ -19,13 +19,13 @@ public class HomeViewModel extends ViewModel {
         this.scheduleRepository = scheduleRepository;
     }
 
-    LiveData<ResponseResult> getScheduleResult() {
+    public LiveData<ResponseResult> getScheduleResult() {
         return scheduleResult;
     }
-    LiveData<ResponseResult> getAllSchedulesResult() {
+    public LiveData<ResponseResult> getAllSchedulesResult() {
         return allSchedulesResult;
     }
-    LiveData<ResponseResult> getUpdateScheduleResult() {
+    public LiveData<ResponseResult> getUpdateScheduleResult() {
         return updateScheduleResult;
     }
 
