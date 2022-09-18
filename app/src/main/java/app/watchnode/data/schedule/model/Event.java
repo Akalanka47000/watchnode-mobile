@@ -16,6 +16,22 @@ public class Event {
         this.location = location;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Integer getStart() {
+        return start;
+    }
+
+    public Integer getEnd() {
+        return end;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
     public static @Nullable
     Event fromJson(JSONObject obj) {
         try {

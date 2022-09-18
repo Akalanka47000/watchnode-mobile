@@ -16,6 +16,14 @@ public class Schedule {
         this.events = events;
     }
 
+    public String getUser() {
+        return user;
+    }
+
+    public List getEvents() {
+        return events;
+    }
+
     public static
     Schedule fromJson(JSONObject obj) {
         try {
