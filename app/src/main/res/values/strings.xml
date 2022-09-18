@@ -12,7 +12,12 @@
     <string name="login_failed">"Login failed"</string>
 
     <!-- Strings related to register -->
-    <string name="prompt_name">Name</string>">
+    <string name="prompt_name">Name</string>>
     <string name="action_register">Register</string>
     <string name="register_failed">"Register failed"</string>
+
+    <!-- Strings related to homepage -->
+    <string name="action_upload">Upload Schedule</string>
+    <string name="home_title">Home</string>
+
 </resources>

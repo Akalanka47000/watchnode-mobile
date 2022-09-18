@@ -3,6 +3,8 @@ package app.watchnode.data;
 import android.content.Context;
 import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
+
+import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -15,6 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import app.watchnode.constants.Constants;
+import app.watchnode.data.auth.AuthRepository;
+import app.watchnode.data.auth.model.LoggedInUser;
 
 public class NetworkManager
 {
@@ -48,7 +52,12 @@ public class NetworkManager
     {
         String url =  Constants.SERVER_URL + path;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,
-                successListener(result, path), errorListener(result,path));
+                successListener(result, path), errorListener(result,path)) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getRequestHeaders();
+            }
+        };
 
         requestQueue.add(request);
     }
@@ -60,7 +69,12 @@ public class NetworkManager
             payload = new HashMap<>();
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, new JSONObject(payload),
-                successListener(result, path), errorListener(result,path));
+                successListener(result, path), errorListener(result,path)) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getRequestHeaders();
+            }
+        };
 
         requestQueue.add(request);
     }
@@ -72,7 +86,12 @@ public class NetworkManager
             payload = new HashMap<>();
         }
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, new JSONObject(payload),
-                successListener(result, path), errorListener(result,path));
+                successListener(result, path), errorListener(result,path)) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getRequestHeaders();
+            }
+        };
 
         requestQueue.add(request);
     }
@@ -81,7 +100,12 @@ public class NetworkManager
     {
         String url =  Constants.SERVER_URL + path;
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.DELETE, url, null,
-                successListener(result, path), errorListener(result,path));
+                successListener(result, path), errorListener(result,path)) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getRequestHeaders();
+            }
+        };
 
         requestQueue.add(request);
     }
@@ -123,5 +147,15 @@ public class NetworkManager
         String responseBody = new String(res.data, "utf-8");
         JSONObject data = new JSONObject(responseBody);
         return data;
+    }
+
+    private Map<String, String> getRequestHeaders() {
+        Map<String, String>  headers = new HashMap();
+        LoggedInUser loggedInUser = AuthRepository.getInstance().getLoggedInUser();
+        if (loggedInUser!= null) {
+            headers.put("Content-Type", "application/json");
+            headers.put("Authorization", "Bearer "+loggedInUser.getAccessToken());
+        };
+        return headers;
     }
 }

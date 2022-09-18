@@ -20,6 +20,7 @@ import app.watchnode.data.NetworkManager;
 import app.watchnode.data.auth.AuthRepository;
 import app.watchnode.data.auth.model.LoggedInUser;
 import app.watchnode.databinding.ActivityLoginBinding;
+import app.watchnode.ui.home.HomeActivity;
 import app.watchnode.ui.register.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -64,9 +65,10 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), loginResult.getMessage(), Toast.LENGTH_SHORT).show();
             } else {
                 try {
-                    LoggedInUser user = LoggedInUser.fromJson(loginResult.getData().getJSONObject("user"));
+                    LoggedInUser user = LoggedInUser.fromJson(loginResult.getData().getJSONObject("user"), loginResult.getData().getString("access_token"));
                     AuthRepository.getInstance().setLoggedInUser(user);
-                    updateUiWithUser();
+                    Intent intent = new Intent(this, HomeActivity.class);
+                    startActivity(intent);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -112,10 +114,5 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-    }
-
-    private void updateUiWithUser() {
-        String welcome = getString(R.string.welcome) + AuthRepository.getInstance().getLoggedInUser().getName();
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 }

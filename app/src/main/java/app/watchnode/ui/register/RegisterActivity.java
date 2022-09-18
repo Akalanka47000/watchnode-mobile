@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import app.watchnode.data.NetworkManager;
 import app.watchnode.data.auth.AuthRepository;
 import app.watchnode.data.auth.model.LoggedInUser;
 import app.watchnode.databinding.ActivityRegisterBinding;
+import app.watchnode.ui.home.HomeActivity;
 import app.watchnode.ui.login.LoginActivity;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -63,13 +65,9 @@ public class RegisterActivity extends AppCompatActivity {
             if (!registerResult.getSuccess()) {
                 Toast.makeText(getApplicationContext(), registerResult.getMessage(), Toast.LENGTH_SHORT).show();
             } else {
-                try {
-                    LoggedInUser user = LoggedInUser.fromJson(registerResult.getData().getJSONObject("user"));
-                    AuthRepository.getInstance().setLoggedInUser(user);
-                    updateUiWithUser();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                Toast.makeText(getApplicationContext(), registerResult.getMessage(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
             }
             setResult(Activity.RESULT_OK);
         });
@@ -118,10 +116,5 @@ public class RegisterActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-    }
-
-    private void updateUiWithUser() {
-        String welcome = getString(R.string.welcome) + AuthRepository.getInstance().getLoggedInUser().getName();
-        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
     }
 }
