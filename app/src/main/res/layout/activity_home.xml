@@ -1,36 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:background="@drawable/gradient"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.HomeActivity"
-    >
+    tools:ignore="MissingClass">
 
-    <com.google.android.material.appbar.AppBarLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:background="@color/black">
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        tools:ignore="MissingConstraints">
 
-        <com.google.android.material.appbar.MaterialToolbar android:id="@+id/topAppBar" android:layout_width="match_parent" android:layout_height="?attr/actionBarSize" app:menu="@menu/top_app_bar"/>
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/top_app_bar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-
-    <ProgressBar android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/homeLoader" android:gravity="center" android:visibility="gone" app:layout_constraintBottom_toBottomOf="parent" app:layout_constraintLeft_toLeftOf="parent" app:layout_constraintRight_toRightOf="parent" app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/searchImgHome"
         android:layout_width="254dp"
         android:layout_height="195dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginTop="200dp"
         app:layout_anchor="@+id/fragment_container_view"
         app:layout_anchorGravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/emailTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/search"
         tools:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/homeLoader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ListView
         android:id="@+id/homeSchedule"
@@ -44,21 +60,16 @@
         android:padding="2dp"
         android:visibility="gone" />
 
-    <Button
-        android:id="@+id/uploadBtn"
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="@color/primary"
-        android:text="@string/action_upload"
-        android:textSize="16dp"
-        android:translationY="290dp"
-        app:cornerRadius="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <androidx.core.widget.NestedScrollView android:layout_width="match_parent" android:layout_height="match_parent" app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp">
 
         <!-- Scrollable content -->
 
@@ -67,18 +78,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Monday"
             android:gravity="center"
+            android:text="Monday"
             android:textSize="18dp"
-            android:textStyle="bold"
-            />
+            android:textStyle="bold" />
     </androidx.core.widget.NestedScrollView>
 
+    <Button
+        android:id="@+id/uploadBtn"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:backgroundTint="@color/primary"
+        android:text="@string/action_upload"
+        android:textColor="#EFEBE9"
+        android:textSize="16dp"
+        android:translationY="290dp"
+        app:cornerRadius="4dp"
+        app:layout_constraintBottom_toBottomOf="@+id/nestedScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
     <androidx.fragment.app.FragmentContainerView
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/fragment_container_view"
+        android:name="app.watchnode.ui.components.AppBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:name="app.watchnode.ui.components.AppBar" />
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="98dp" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -42,11 +42,7 @@ public class ScheduleActivity extends AppCompatActivity {
             }
             ListView scheduleItems = findViewById(R.id.allSchedules);
             loadingProgressBar.setVisibility(View.GONE);
-            System.out.println(777);
             if (!scheduleResult.getSuccess()) {
-//                Toast.makeText(getApplicationContext(), scheduleResult.getMessage(), Toast.LENGTH_SHORT).show();
-//                searchImg.setVisibility(View.VISIBLE);
-
                 ArrayList<Schedule> schedules= new ArrayList<>();
                 schedules.add(new Schedule("1", "Lecture Schedule", new ArrayList<>()));
                 schedules.add(new Schedule("1", "Exam Schedule", new ArrayList<>()));

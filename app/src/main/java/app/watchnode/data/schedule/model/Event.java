@@ -5,11 +5,11 @@ import org.json.JSONObject;
 
 public class Event {
     private String name;
-    private Integer start;
-    private Integer end;
+    private Long start;
+    private Long end;
     private String location;
 
-    public Event(String name, Integer start, Integer end, String location) {
+    public Event(String name, Long start, Long end, String location) {
         this.name = name;
         this.start = start;
         this.end = end;
@@ -20,11 +20,11 @@ public class Event {
         return name;
     }
 
-    public Integer getStart() {
+    public Long getStart() {
         return start;
     }
 
-    public Integer getEnd() {
+    public Long getEnd() {
         return end;
     }
 
@@ -37,8 +37,8 @@ public class Event {
         try {
             return new Event(
                     obj.getString("name"),
-                    obj.getInt("start"),
-                    obj.getInt("end"),
+                    obj.getLong("start"),
+                    obj.getLong("end"),
                     obj.getString("location")
             );
         } catch(Exception e) {
