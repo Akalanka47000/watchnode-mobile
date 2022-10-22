@@ -13,12 +13,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -27,21 +30,19 @@ import androidx.lifecycle.ViewModelProvider;
 import com.android.volley.Request;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import app.watchnode.constants.Constants;
 import app.watchnode.data.NetworkManager;
 import app.watchnode.data.VolleyMultipartRequest;
-import app.watchnode.data.schedule.model.Event;
 import app.watchnode.data.schedule.model.Schedule;
 import app.watchnode.databinding.ActivityHomeBinding;
+import app.watchnode.ui.login.LoginActivity;
+import app.watchnode.ui.user.UserActivity;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -60,10 +61,37 @@ public class HomeActivity extends AppCompatActivity {
         ActivityHomeBinding binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         final Button uploadButton = binding.uploadBtn;
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.appToolBar);
+        setSupportActionBar(myToolbar);
+        myToolbar.setOnMenuItemClickListener(item->{
+            switch (item.getItemId()) {
+                case R.id.logoutItem:
+                    Intent logoutIntent = new Intent(this, LoginActivity.class);
+                    startActivity(logoutIntent);
+                    return true;
+                case R.id.homeItem:
+                    Intent homeIntent = new Intent(this, HomeActivity.class);
+                    startActivity(homeIntent);
+                    return true;
+                case R.id.usersItem:
+                    Intent userIntent = new Intent(this, UserActivity.class);
+                    startActivity(userIntent);
+                    return true;
+                default:
+                    return false;
+            }
+        });
         refresh();
         uploadButton.setOnClickListener(v -> {
             onUploadClick();
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.top_app_bar, menu);
+        return true;
     }
 
     public void refresh () {
@@ -78,18 +106,7 @@ public class HomeActivity extends AppCompatActivity {
             }
             ImageView searchImg = findViewById(R.id.searchImgHome);
             ListView scheduleItems = findViewById(R.id.homeSchedule);
-            if (!scheduleResult.getSuccess()) {
-//                Toast.makeText(getApplicationContext(), scheduleResult.getMessage(), Toast.LENGTH_SHORT).show();
-//                searchImg.setVisibility(View.VISIBLE);
-                searchImg.setVisibility(View.GONE);
-                ArrayList<Event> events= new ArrayList<>();
-                events.add(new Event("Event 1", 1663495713L, 2L,"Hall A-11"));
-                events.add(new Event("Event 2", 1663515713L, 4L,"Hall B-10"));
-                events.add(new Event("Event 3", 1663605713L, 5L, "Hatch Works"));
-                ScheduleListAdapter adapter= new ScheduleListAdapter(events,getApplicationContext());
-                scheduleItems.setAdapter(adapter);
-                scheduleItems.setVisibility(View.VISIBLE);
-            } else {
+            if (scheduleResult.getSuccess()) {
                 if (scheduleResult.getData() != null) {
                     Schedule schedule = Schedule.fromJson(scheduleResult.getData());
                     ScheduleListAdapter adapter= new ScheduleListAdapter(schedule.getEvents(),getApplicationContext());

@@ -12,6 +12,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
@@ -114,10 +115,14 @@ public class NetworkManager
         return (Response.Listener<JSONObject>) response -> {
             if (null != response.toString()) {
                 try {
-                    JSONObject data = response.getJSONObject("data");
+                    Object data = response.get("data");
                     String message = response.getString("message");
                     Log.d("API_REQUEST_SUCCESS", "path: " + path + "response: " + data);
-                    result.setValue(new ResponseResult(true, message, data));
+                    if (data instanceof JSONArray) {
+                        result.setValue(new ResponseResult(true, message, (JSONArray) data));
+                    } else {
+                        result.setValue(new ResponseResult(true, message, (JSONObject) data));
+                    }
                 } catch (Exception e) {
                     Log.d("API_REQUEST_FAILED", "path: " + path);
                 }
@@ -134,7 +139,7 @@ public class NetworkManager
                     JSONObject data = res.has("data") ? res.getJSONObject("data") : null;
                     String message = res.has("message") ? res.getString("message") : null;
                     Log.d("API_REQUEST_FAILED", "path: " + path + "response: " + data + "status: " + error.networkResponse.statusCode);
-                result.setValue(new ResponseResult(false, message, data));
+                    result.setValue(new ResponseResult(false, message, data));
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.d("API_REQUEST_FAILED", "path: " + path  + "status: " + error.networkResponse.statusCode);

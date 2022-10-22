@@ -8,6 +8,11 @@
        />
 
     <item
+        android:id="@+id/usersItem"
+        android:title="Users"
+        />
+
+    <item
         android:id="@+id/settingsItem"
         android:title="Settings"
         />

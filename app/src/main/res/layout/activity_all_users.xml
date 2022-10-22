@@ -5,13 +5,13 @@
     android:background="@drawable/gradient"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.home.HomeActivity"
+    tools:context=".ui.user.UserActivity"
     tools:ignore="MissingClass">
 
     <include android:id="@+id/appToolBar" layout="@layout/app_bar" />
 
     <ImageView
-        android:id="@+id/searchImgHome"
+        android:id="@+id/searchImgUsers"
         android:layout_width="254dp"
         android:layout_height="195dp"
         android:layout_marginTop="200dp"
@@ -22,19 +22,8 @@
         app:srcCompat="@drawable/search"
         tools:visibility="gone" />
 
-    <ProgressBar
-        android:id="@+id/homeLoader"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ListView
-        android:id="@+id/homeSchedule"
+        android:id="@+id/userList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="140dp"
@@ -56,35 +45,15 @@
         app:layout_constraintVertical_bias="1.0"
         tools:layout_editor_absoluteX="0dp">
 
-        <!-- Scrollable content -->
-
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:text="Monday"
+            android:text="All Users"
             android:textSize="18dp"
             android:textStyle="bold" />
     </androidx.core.widget.NestedScrollView>
-
-    <Button
-        android:id="@+id/uploadBtn"
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:backgroundTint="@color/primary"
-        android:text="@string/action_upload"
-        android:textColor="#EFEBE9"
-        android:textSize="16dp"
-        android:translationY="290dp"
-        app:cornerRadius="4dp"
-        app:layout_constraintBottom_toBottomOf="@+id/nestedScrollView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

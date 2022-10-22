@@ -35,9 +35,9 @@
             android:label="Home">
         </activity>
         <activity
-            android:name=".ui.schedule.ScheduleActivity"
+            android:name=".ui.user.UserActivity"
             android:exported="true"
-            android:label="Home">
+            android:label="Users">
         </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
