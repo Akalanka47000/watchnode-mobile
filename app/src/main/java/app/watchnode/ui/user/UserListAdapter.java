@@ -30,6 +30,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
         TextView txtName;
         TextView txtEmail;
         ImageButton deleteBtn;
+        ImageButton updateBtn;
     }
 
     public UserListAdapter(ArrayList<User> data, Context context) {
@@ -53,7 +54,7 @@ public class UserListAdapter extends ArrayAdapter<User> {
             viewHolder.txtName = (TextView) convertView.findViewById(R.id.list_item_user_name);
             viewHolder.txtEmail = (TextView) convertView.findViewById(R.id.list_item_user_email);
             viewHolder.deleteBtn = (ImageButton) convertView.findViewById(R.id.btn_delete_usr);
-
+            viewHolder.updateBtn = (ImageButton) convertView.findViewById(R.id.btn_edit_usr);
             result=convertView;
 
             convertView.setTag(viewHolder);
@@ -68,6 +69,14 @@ public class UserListAdapter extends ArrayAdapter<User> {
             userViewModel.deleteUser(dataModel.getId());
             this.dataSet.remove(dataModel);
             this.notifyDataSetChanged();
+        });
+        viewHolder.updateBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, ModifyUserActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("type", "edit");
+            intent.putExtra("userId", dataModel.getId());
+            intent.putExtra("username", dataModel.getName());
+            mContext.startActivity(intent);
         });
         return convertView;
     }

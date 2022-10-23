@@ -20,9 +20,10 @@ public class UserRepository {
         return instance;
     }
 
-    public void addUser(MutableLiveData<ResponseResult> result, String name) {
+    public void addUser(MutableLiveData<ResponseResult> result, String name, String email) {
         Map<String, Object> jsonParams = new HashMap<>();
         jsonParams.put("name", name);
+        jsonParams.put("email", email);
         NetworkManager.getInstance().post("/api/users", jsonParams,  result);
     }
 

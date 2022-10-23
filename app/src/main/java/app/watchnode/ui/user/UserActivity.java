@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +26,7 @@ import app.watchnode.data.user.model.User;
 import app.watchnode.databinding.ActivityAllUsersBinding;
 import app.watchnode.ui.home.HomeActivity;
 import app.watchnode.ui.login.LoginActivity;
+import app.watchnode.ui.register.RegisterActivity;
 
 public class UserActivity  extends AppCompatActivity {
     private UserViewModel userViewModel;
@@ -37,6 +39,7 @@ public class UserActivity  extends AppCompatActivity {
         setContentView(binding.getRoot());
         Toolbar myToolbar = (Toolbar) findViewById(R.id.appToolBar);
         setSupportActionBar(myToolbar);
+        Button addUserBtn = (Button) binding.btnAddUser;
         myToolbar.setOnMenuItemClickListener(item->{
             switch (item.getItemId()) {
                 case R.id.logoutItem:
@@ -54,6 +57,12 @@ public class UserActivity  extends AppCompatActivity {
                 default:
                     return false;
             }
+        });
+        addUserBtn.setOnClickListener(v -> {
+            Intent intent = new Intent(this, ModifyUserActivity.class);
+            intent.putExtra("type", "add");
+            startActivity(intent);
+            finish();
         });
         refresh();
     }
@@ -80,7 +89,6 @@ public class UserActivity  extends AppCompatActivity {
             ListView users = findViewById(R.id.userList);
             if (allUsersResult.getSuccess()) {
                     if (allUsersResult.getDataList() != null) {
-                        System.out.println(12312313);
                         ArrayList<User> userList = new ArrayList<>();
                         JSONArray usrArr = allUsersResult.getDataList();
                         for (int i = 0 ; i < usrArr.length(); i++) {

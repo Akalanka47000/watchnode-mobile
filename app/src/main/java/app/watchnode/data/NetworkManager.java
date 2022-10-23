@@ -138,11 +138,12 @@ public class NetworkManager
                     JSONObject res = parseVolleyResponse(error.networkResponse);
                     JSONObject data = res.has("data") ? res.getJSONObject("data") : null;
                     String message = res.has("message") ? res.getString("message") : null;
-                    Log.d("API_REQUEST_FAILED", "path: " + path + "response: " + data + "status: " + error.networkResponse.statusCode);
+                    System.out.println(message);
+                    Log.d("API_REQUEST_FAILED", "path: " + path + " response: " + data + "status: " + error.networkResponse.statusCode);
                     result.setValue(new ResponseResult(false, message, data));
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.d("API_REQUEST_FAILED", "path: " + path  + "status: " + error.networkResponse.statusCode);
+                    Log.d("API_REQUEST_FAILED", "path: " + path  + " status: " + error.networkResponse.statusCode);
                 }
             }
         };

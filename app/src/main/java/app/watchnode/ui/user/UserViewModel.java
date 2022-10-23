@@ -32,9 +32,9 @@ public class UserViewModel extends ViewModel {
         return deleteUserResult;
     }
 
-    public void addUser(String name) {
+    public void addUser(String name, String email) {
         try {
-            userRepository.addUser(addUserResult, name);
+            userRepository.addUser(addUserResult, name, email);
         } catch (Exception e) {
             e.printStackTrace();
         }
