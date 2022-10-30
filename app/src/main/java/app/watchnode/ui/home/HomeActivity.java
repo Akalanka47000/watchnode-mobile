@@ -1,5 +1,6 @@
 package app.watchnode.ui.home;
 
+import app.watchnode.NotificationsHistoryActivity;
 import app.watchnode.R;
 
 import android.Manifest;
@@ -36,6 +37,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import app.watchnode.SettingsActivity;
 import app.watchnode.constants.Constants;
 import app.watchnode.data.NetworkManager;
 import app.watchnode.data.VolleyMultipartRequest;
@@ -72,6 +74,14 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.homeItem:
                     Intent homeIntent = new Intent(this, HomeActivity.class);
                     startActivity(homeIntent);
+                    return true;
+                case R.id.settingsItem:
+                    Intent settingIntent = new Intent(this, SettingsActivity.class);
+                    startActivity(settingIntent);
+                    return true;
+                case R.id.historyItem:
+                    Intent historyIntent = new Intent(this, NotificationsHistoryActivity.class);
+                    startActivity(historyIntent);
                     return true;
                 case R.id.usersItem:
                     Intent userIntent = new Intent(this, UserActivity.class);

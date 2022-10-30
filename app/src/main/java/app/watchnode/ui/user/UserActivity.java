@@ -20,7 +20,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import app.watchnode.NotificationsHistoryActivity;
 import app.watchnode.R;
+import app.watchnode.SettingsActivity;
 import app.watchnode.data.NetworkManager;
 import app.watchnode.data.user.model.User;
 import app.watchnode.databinding.ActivityAllUsersBinding;
@@ -49,6 +51,14 @@ public class UserActivity  extends AppCompatActivity {
                 case R.id.homeItem:
                     Intent homeIntent = new Intent(this, HomeActivity.class);
                     startActivity(homeIntent);
+                    return true;
+                case R.id.settingsItem:
+                    Intent settingIntent = new Intent(this, SettingsActivity.class);
+                    startActivity(settingIntent);
+                    return true;
+                case R.id.historyItem:
+                    Intent historyIntent = new Intent(this, NotificationsHistoryActivity.class);
+                    startActivity(historyIntent);
                     return true;
                 case R.id.usersItem:
                     Intent userIntent = new Intent(this, UserActivity.class);

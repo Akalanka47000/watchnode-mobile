@@ -43,14 +43,14 @@
         <activity
             android:name=".ui.user.UserActivity"
             android:exported="true"
-            android:label="Home" />
+            android:label="Users" />
         <activity
             android:name=".SettingsActivity"
             android:exported="true" />
         <activity
             android:name=".NotificationsHistoryActivity"
             android:exported="true"
-            android:label="Home" />
+            android:label="Notifications" />
 
         <receiver
             android:name=".Notification"
