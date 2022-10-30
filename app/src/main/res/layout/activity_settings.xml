@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient"
+    android:padding="20sp"
+    tools:context=".SettingsActivity">
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_weight=".20"
+        android:gravity="center"
+        android:text="@string/settings"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+
+
+        />
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="40sp"
+        app:layout_constraintTop_toBottomOf="@+id/textView4"
+        tools:layout_editor_absoluteX="20dp"
+
+        >
+
+        <EditText
+            android:background="@drawable/edit_text_shape"
+            android:layout_width="0dp"
+            android:layout_weight="0.60"
+            android:layout_height="50dp"
+            android:textSize="20sp"
+            android:padding="10sp"
+            android:hint="@string/enable_notifications"
+            android:textColorHint="#919090"
+
+
+            />
+
+        <androidx.appcompat.widget.SwitchCompat
+
+            android:id="@+id/main_activity_sw_simulate"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/shape"
+            android:padding="10sp"
+            tools:ignore="TouchTargetSizeCheck"
+            tools:layout_editor_absoluteX="30dp"
+            tools:layout_editor_absoluteY="120dp"
+
+            />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80sp"
+        android:orientation="horizontal"
+
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout1"
+        tools:layout_editor_absoluteX="20dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+
+            >
+            <Button
+                android:id="@+id/image"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:background="@drawable/shape2"
+                android:backgroundTint="#7C1DC9"
+                />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.60"
+                android:background="@drawable/edit_text_shape2"
+                android:hint="@string/notification_period"
+                android:textSize="20sp"
+
+                android:paddingLeft="10sp"
+                android:textColorHint="#919090"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:layout_marginTop="80sp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="@string/btn_update"
+        android:textSize="20sp"
+        android:backgroundTint="#7C1DC9"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
+        tools:layout_editor_absoluteX="20dp"
+        />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
