@@ -54,9 +54,8 @@ public class ScheduleListAdapter extends ArrayAdapter<Event>{
             viewHolder = (ViewHolder) convertView.getTag();
             result=convertView;
         }
-
         Date date = new Date(dataModel.getStart());
-        viewHolder.txtStart.setText(date.toLocaleString().substring(13, 18));
+        viewHolder.txtStart.setText(date.toLocaleString().substring(13, date.toLocaleString().length()));
         viewHolder.txtEventName.setText(dataModel.getName());
         return convertView;
     }
